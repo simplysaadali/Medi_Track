@@ -7,6 +7,7 @@ import RegisterForm from "./features/auth/RegisterForm";
 import ForgotPassword from "./features/auth/ForgotPassword";
 import ResetPassword from "./features/auth/ResetPassword";
 import Dashboard from "./features/appointments/Dashboard";
+import AppointmentsOnly from "./features/appointments/AppointmentsOnly";
 import StaffPanel from "./features/appointments/StaffPanel";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
@@ -47,7 +48,7 @@ export default function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/appointments-only" element={<Dashboard />} />
+          <Route path="/appointments-only" element={<AppointmentsOnly />} />
         </Route>
 
         <Route element={<RoleRoute allow={["staff"]} />}>

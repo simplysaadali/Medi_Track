@@ -6,6 +6,7 @@ import { store } from "./app/store";
 import App from "./App";
 import "./styles.css";
 import { setUnauthorisedHandler } from "./api/axios";
+import { forceLogout } from "./features/auth/authSlice";
 
 setUnauthorisedHandler(() => store.dispatch(forceLogout()));
 

@@ -193,3 +193,46 @@ button:disabled {
   background: #f5d5cb;
   color: #b3401c;
 }
+
+/* Appointments-only page tweaks */
+.appointments-only {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.appointments-only h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: var(--brown);
+}
+
+.appointments-only .muted {
+  margin-bottom: 18px;
+}
+
+.appointments-only .table {
+  margin-top: 8px;
+}
+
+/* Small helper: back link shown at top-left of appointments-only page */
+.appointments-only .back {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--paprika);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .table th,
+  .table td {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .appointments-only h2 {
+    font-size: 18px;
+  }
+}

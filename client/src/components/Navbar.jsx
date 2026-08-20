@@ -18,7 +18,7 @@ export default function Navbar() {
       <div className="spacer" />
       {isAuthenticated ? (
         <>
-          <Link to="/dashboard">My appointments</Link>
+          <Link to="/appointments-only">My appointments</Link>
           {user?.role === "staff" && <Link to="/staff">Clinic schedule</Link>}
           <button onClick={handleLogout}>Log out</button>
         </>
