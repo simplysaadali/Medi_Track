@@ -4,16 +4,18 @@ const protect = require("../middleware/auth");
 
 const router = express.Router();
 
-// TASK 6.2: guard every route in this file with one line.
-// TODO (Task 6.2): router.use(protect);
+router.use(protect);
 
-/**
- * TASK 6.3 - GET /api/appointments
- * Return ONLY the appointments whose owner is req.user.id, newest first.
- */
 router.get("/", async (req, res) => {
-  // TODO (Task 6.3)
-  res.status(501).json({ msg: "Not implemented - Task 6.3" });
+  
+  try {
+    const appointments = await Appointment.find({ owner: req.user.id}).sort({ scheduledFor: 1 });
+    res.json({ appointments });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 });
 
 /**
@@ -21,8 +23,9 @@ router.get("/", async (req, res) => {
  * owner comes from the token (req.user.id), never from req.body.
  */
 router.post("/", async (req, res) => {
-  // TODO (Task 6.4)
-  res.status(501).json({ msg: "Not implemented - Task 6.4" });
+  const appointment = await Appointment.create({
+    
+  })
 });
 
 /**
