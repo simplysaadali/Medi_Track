@@ -96,10 +96,8 @@ router.get("/me", protect, async (req, res) => {
 
 router.post("/logout", (req, res) => {
   try {
-    router.post("/logout", (req, res) => {
     res.clearCookie("token", cookieOptions);
     res.json({ message: "Logged out" });
-  });
   } catch (error) {
     console.error("Error", error);
     res.status(500).json({ message: "Server error" });

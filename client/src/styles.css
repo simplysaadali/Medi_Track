@@ -1,20 +1,195 @@
-:root { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #16232e; }
-body { margin: 0; background: #f4f7fa; }
-.nav { display: flex; align-items: center; gap: 16px; padding: 14px 24px; background: #0f766e; color: #fff; }
-.nav a { color: #fff; text-decoration: none; font-size: 14px; }
-.nav .brand { font-weight: 700; font-size: 18px; letter-spacing: .5px; }
-.nav .spacer { flex: 1; }
-.page { max-width: 900px; margin: 32px auto; padding: 0 20px; }
-.card { max-width: 460px; margin: 32px auto; background: #fff; padding: 24px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.page .card { margin: 0 0 24px; max-width: none; }
-label { display: block; font-size: 13px; margin: 12px 0 4px; color: #4b5b68; }
-input { width: 100%; padding: 9px 10px; border: 1px solid #cfd8e0; border-radius: 6px; box-sizing: border-box; }
-button { margin-top: 14px; padding: 9px 16px; border: 0; border-radius: 6px; background: #0f766e; color: #fff; cursor: pointer; }
-button:disabled { background: #9bb4b1; cursor: not-allowed; }
-.error { color: #b91c1c; font-size: 14px; }
-.muted { color: #6b7a88; font-size: 13px; }
-.table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; }
-.table th, .table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e6ecf1; font-size: 14px; }
-.badge { padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #e2e8f0; }
-.badge.confirmed { background: #d1fae5; color: #065f46; }
-.badge.cancelled { background: #fee2e2; color: #991b1b; }
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #403d39;
+
+  --cream: #fffcf2;
+  --dust: #ccc5b9;
+  --brown: #403d39;
+  --carbon: #252422;
+  --paprika: #eb5e28;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+}
+
+/* Nav */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  background: var(--carbon);
+  color: var(--cream);
+  border-bottom: 3px solid var(--paprika);
+}
+
+.nav a {
+  color: var(--dust);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.15s ease;
+}
+
+.nav a:hover {
+  color: var(--cream);
+}
+
+.nav .brand {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  color: var(--cream);
+}
+
+.nav .brand::before {
+  content: "+";
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--paprika);
+  font-weight: 800;
+}
+
+.nav .spacer {
+  flex: 1;
+}
+
+/* Layout */
+.page {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.card {
+  max-width: 460px;
+  margin: 32px auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  border: 1px solid var(--dust);
+  box-shadow: 0 1px 4px rgba(37, 36, 34, 0.08);
+}
+
+.page .card {
+  margin: 0 0 24px;
+  max-width: none;
+}
+
+/* Forms */
+label {
+  display: block;
+  font-size: 13px;
+  margin: 12px 0 4px;
+  color: var(--brown);
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--dust);
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: var(--cream);
+  color: var(--brown);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--paprika);
+  box-shadow: 0 0 0 3px rgba(235, 94, 40, 0.15);
+}
+
+button {
+  margin-top: 14px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--paprika);
+  color: var(--cream);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+button:hover {
+  background: #d54f1c;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  background: var(--dust);
+  color: #8a8378;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.muted {
+  color: #7a7267;
+  font-size: 13px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--dust);
+}
+
+.table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: var(--carbon);
+  color: var(--dust);
+}
+
+.table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--dust);
+  font-size: 14px;
+  color: var(--brown);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: rgba(235, 94, 40, 0.05);
+}
+
+/* Badges */
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--dust);
+  color: var(--carbon);
+}
+
+.badge.confirmed {
+  background: #d1e8d1;
+  color: #2d5a2d;
+}
+
+.badge.cancelled {
+  background: #f5d5cb;
+  color: #b3401c;
+}

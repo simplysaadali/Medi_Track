@@ -1,45 +1,30 @@
-# MediTrack — Clinic Appointment Portal (Student Starter)
+# MediTrack — Clinic Appointment Portal
 
-Week 7 · Session 14 · Authentication End to End — practical assignment starter code.
+Lightweight clinic appointment demo app (patient/staff) with auth, cookies, and a React + Redux frontend.
 
-Stack: MongoDB · Express · React · Redux Toolkit · Vite
+Tech stack
+- **Backend:** Node.js, Express, MongoDB (Mongoose), JWT stored in an HttpOnly cookie
+- **Frontend:** React, Vite, React Router, Redux Toolkit, Axios
+- **Dev tools:** nodemon (server), Vite (client)
 
----
+Status
+- Basic authentication, appointment CRUD, and staff panel implemented. Logout, protected routes, and cookie-based auth are active.
 
-## What is already done for you
+Getting started
 
-- Full folder structure for both `server/` and `client/`
-- Routing, styling, forms and table layouts
-- `RegisterForm.jsx` and the `registerUser` thunk, as a worked example to copy from
-- `fetchAppointments` thunk and its three reducer cases
-
-## What you must write
-
-Every place you need to type is marked with a comment like:
-
-```js
-```
-
-Search the whole project for `TODO (Task` in VS Code (Ctrl+Shift+F) to list them all.
-The assignment document explains each task in detail.
-
----
-
-## Setup
-
-### 1. Backend
+1) Backend
 
 ```bash
 cd server
 npm install
-cp .env.example .env        # Windows: copy .env.example .env
-# open .env and fill in MONGO_URI and a long random JWT_SECRET
+cp .env.example .env   # Windows: copy .env.example .env
+# Edit .env: set MONGO_URI and JWT_SECRET (use a long random string)
 npm run dev
 ```
 
-The API runs on http://localhost:5000 — check http://localhost:5000/api/health
+The API defaults to http://localhost:5000. Health check: http://localhost:5000/api/health
 
-### 2. Frontend
+2) Frontend
 
 ```bash
 cd client
@@ -47,55 +32,84 @@ npm install
 npm run dev
 ```
 
-The app runs on http://localhost:5173
+The client defaults to http://localhost:5173 (Vite).
 
-> Restart the backend after every `.env` edit — `JWT_SECRET` is read at boot.
+Notes on cookies and CORS
+- The client `axios` instance uses `withCredentials: true` so the browser will send cookies.
+- The server sets `cors({ origin: process.env.CLIENT_URL, credentials: true })` and uses `cookie-parser`.
 
----
+Environment variables (`server/.env`)
+- `MONGO_URI` — your MongoDB connection string
+- `JWT_SECRET` — long random secret for signing tokens
+- `PORT` — optional (defaults to 5000)
 
-## Creating a staff account
+Quick API map
+- `POST /api/auth/register` — register and set cookie
+- `POST /api/auth/login` — login and set cookie
+- `GET /api/auth/me` — returns current user (requires cookie)
+- `POST /api/auth/logout` — clears cookie
+- `GET/POST /api/appointments` — patient: list/create own appointments
+- `DELETE /api/appointments/:id` — cancel own appointment
+- `GET /api/staff/appointments` — staff-only: view all appointments
+- `PATCH /api/staff/appointments/:id/status` — staff-only: update status
 
-Register normally, then in MongoDB Atlas (or Compass) open the `users`
-collection and change that document's `role` from `"patient"` to `"staff"`.
-Nobody can register themselves as staff — that is deliberate.
+File structure (top-level)
 
----
+- `client/` — React app
+	- `src/` — source code
+		- `api/axios.js` — axios instance (withCredentials)
+		- `app/store.js` — redux store
+		- `components/Navbar.jsx` — top nav (login/logout links)
+		- `features/appointments/` — `appointmentsSlice.js`, `Dashboard.jsx`, `StaffPanel.jsx`
+		- `features/auth/` — `authSlice.js`, `LoginForm.jsx`, `RegisterForm.jsx`, password flows
+		- `routes/ProtectedRoute.jsx`, `RoleRoute.jsx`
 
-## Route map
+- `server/` — Express API
+	- `routes/auth.js` — register/login/me/logout
+	- `routes/appointments.js` — appointment endpoints
+	- `routes/staff.js` — staff-only endpoints
+	- `middleware/auth.js` — cookie jwt protect middleware
+	- `models/User.js`, `models/Appointment.js`
 
-| Method | Route | Access |
-|---|---|---|
-| POST | `/api/auth/register` | public |
-| POST | `/api/auth/login` | public |
-| GET | `/api/auth/me` | logged in |
-| POST | `/api/auth/logout` | public |
-| GET/POST | `/api/appointments` | logged in, own data only |
-| PUT/DELETE | `/api/appointments/:id` | owner only |
-| GET | `/api/staff/appointments` | staff only |
-| PATCH | `/api/staff/appointments/:id/status` | staff only |
+How to use the app (basic)
+- Register as a patient from the UI.
+- The server sets an HttpOnly cookie containing the JWT. The frontend calls `GET /api/auth/me` to populate user state.
+- Access `My appointments` to view, create, or cancel appointment requests.
+- To test staff features, set the user's `role` to `staff` in the database (manual change) and sign in.
 
----
+Testing logout (quick)
 
-## Submitting
-
-Push the code to a GitHub repo. Send the repo link. That is the whole submission.
+Server running on port 5000:
 
 ```bash
-git init
-git add .
-git status            # check: no node_modules, no .env
-git commit -m "MediTrack auth assignment"
-git branch -M main
-git remote add origin https://github.com/<you>/meditrack.git
-git push -u origin main
+curl -i -X POST http://localhost:5000/api/auth/logout
 ```
 
-Your repo must have:
+Or click the `Log out` button in the UI — it dispatches `logoutUser()` which posts to `/api/auth/logout` and clears frontend state.
 
-- The full `server/` and `client/` folders
-- `.env.example`, but **not** `.env`
-- `.gitignore` with `node_modules` and `.env` in it
-- `README.md` saying how to run it, and which Part 9 extras you did
-- `REFLECTION.md` with your six answers
+Why this structure and benefits
+- Cookie-based JWT (HttpOnly) reduces risk of token theft via XSS compared to localStorage.
+- Clear separation of responsibilities: the backend handles auth and data rules; the frontend handles presentation and local state.
+- Redux Toolkit keeps async flows and state predictable.
 
-Do not upload a zip. Never commit `.env`.
+Real-world usage examples
+- Small clinics that need appointment requests and staff scheduling.
+- Prototype for an EMR front-end where auth and role-based access are required.
+
+Possible improvements
+- Add refresh tokens / short-lived access tokens for stronger security.
+- Email notifications for appointment confirmations / cancellations.
+- Pagination and filtering on appointment lists.
+
+Contributing
+- Fixes or improvements: fork, branch, PR. Keep `.env` out of commits.
+
+License
+- No license specified — add one if you plan to share publicly.
+
+If you want, I can also:
+- Add a small test script that runs a few API smoke tests, or
+- Create a short developer checklist or docker-compose for easier local runs.
+
+---
+
