@@ -15,20 +15,15 @@ const jwt = require("jsonwebtoken");
  * A middleware has exactly two endings: it calls next(), or it ends the response.
  */
 function protect(req, res, next) {
-  const tokenFromCookie = req.cookies?.token;
-  const authHeader = req.headers.authorization;
-  const token = tokenFromCookie || (authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : null);
-
-  if (!token) {
-    return res.status(401).json({ msg: "Not authorized, no token" });
-  }
-
+  const token = req.cookies.token;
+  if (!token)
+    return res.status(401).json({ msg: "Not authorised — no token" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = { id: decoded.id, role: decoded.role };
-    return next();
+    next();
   } catch (err) {
-    return res.status(401).json({ msg: "Token invalid or expired" });
+    res.status(401).json({ msg: "Token invalid or expired" });
   }
 }
 

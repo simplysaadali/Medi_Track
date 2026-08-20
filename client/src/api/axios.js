@@ -1,13 +1,8 @@
 import axios from "axios";
 
-/**
- * TASK 5.1 - One axios instance for the whole app.
- * withCredentials: true is the single non-negotiable line - without it the
- * browser will neither send nor store the auth cookie.
- */
 const api = axios.create({
   baseURL: "http://localhost:5000/api",
-  // TODO (Task 5.1): withCredentials: true
+  withCredentials: true,
 });
 
 /**
