@@ -10,15 +10,14 @@ import Dashboard from "./features/appointments/Dashboard";
 import StaffPanel from "./features/appointments/StaffPanel";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
-// TODO (Task 5.6): import { fetchMe } from "./features/auth/authSlice";
+import { fetchMe } from "./features/auth/authSlice";
 
 export default function App() {
   const dispatch = useDispatch();
   const { booted } = useSelector((s) => s.auth);
 
-  // TASK 5.6 - the cookie decides who we are, so ask the server once on mount.
   useEffect(() => {
-    // TODO (Task 5.6): dispatch(fetchMe());
+    dispatch(fetchMe());
   }, [dispatch]);
 
   if (!booted) return <p className="page">Starting MediTrack...</p>;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-// TODO (Task 5.4): import { loginUser } from "./authSlice";
+import { loginUser } from "./authSlice"
 
 export default function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -12,15 +12,10 @@ export default function LoginForm() {
   const onChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  /**
-   * TASK 5.4
-   *   const result = await dispatch(loginUser(form));
-   *   if (loginUser.fulfilled.match(result)) navigate("/dashboard");
-   * No try/catch in the component - RTK gives you .match().
-   */
   const onSubmit = async (e) => {
     e.preventDefault();
-    // TODO (Task 5.4)
+    const result = await dispatch(loginUser(form));
+    if (loginUser.fulfilled.match(result)) navigate("/dashboard");
   };
 
   return (
