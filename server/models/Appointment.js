@@ -21,7 +21,7 @@ const appointmentSchema = new mongoose.Schema(
       default: "requested",
     },
     owner: {
-      typr: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
       index: true,

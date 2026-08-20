@@ -18,34 +18,48 @@ router.get("/", async (req, res) => {
   }
 });
 
-/**
- * TASK 6.4 - POST /api/appointments
- * owner comes from the token (req.user.id), never from req.body.
- */
 router.post("/", async (req, res) => {
   const appointment = await Appointment.create({
-    
-  })
+    doctor: req.body.doctor,
+    reason: req.body.reason,
+    scheduledFor: req.body.scheduledFor,
+    owner: req.user.id,
+  });
+  res.status(201).json({ appointment })
 });
 
-/**
- * TASK 6.5 - PUT /api/appointments/:id
- * Put BOTH _id and owner in the query so the database enforces ownership.
- * Nothing found -> 404 (never 403: a stranger must not learn the id exists).
- * Remember runValidators: true and new: true.
- */
 router.put("/:id", async (req, res) => {
-  // TODO (Task 6.5)
-  res.status(501).json({ msg: "Not implemented - Task 6.5" });
+  try {
+     const appointment = await Appointment.findByIdAndUpdate({
+       _id: req.params.id,
+       owner: req.user.id,
+     },
+     {
+       doctor: req.body.doctor,
+       reason: req.body.reason,
+     },
+     {
+       new: true,
+       runValidators: true,
+     }
+  );
+     if(!appointment)
+        return res.status(404).json({ message: "Not Found"});
+    res.json({ appointment });
+} 
+  catch (error) {
+    res.status(404).json({ message: error.message })
+  }
 });
 
-/**
- * TASK 6.6 - DELETE /api/appointments/:id
- * Same ownership filter, same 404.
- */
 router.delete("/:id", async (req, res) => {
-  // TODO (Task 6.6)
-  res.status(501).json({ msg: "Not implemented - Task 6.6" });
+  const appointment = await Appointment.findByIdAndDelete({
+    _id: req.params.id,
+    owner: req.user.id,
+  });
+  if(!appointment)
+    return res.status(404).json({ message: "Not Found "});
+  res.json({ message: "Cancelled", id: req.params.id });
 });
 
 module.exports = router;
