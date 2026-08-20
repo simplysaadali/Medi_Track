@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAppointments } from "./appointmentsSlice";
-// TODO (Task 6.7): import addAppointment and cancelAppointment as well
+import { fetchAppointments, createAppointment, cancelAppointment } from "./appointmentsSlice";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -18,8 +17,17 @@ export default function Dashboard() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // TODO (Task 6.7): dispatch(addAppointment(form)) and clear the form on success
+    const result = await dispatch(createAppointment(form));
+    if(!createAppointment.fulfilled.match(result)){
+      setForm({
+        doctor: "",
+        reason: "",
+        scheduledFor: "",
+      });
+    }
   };
+
+const onCancel = (id) => dispatch(cancelAppointment(id))
 
   return (
     <div className="page">
@@ -67,7 +75,7 @@ export default function Dashboard() {
                 <span className={`badge ${a.status}`}>{a.status}</span>
               </td>
               <td>
-                {/* TODO (Task 6.8): a Cancel button that dispatches cancelAppointment(a._id) */}
+                <button onClick={() => onCancel(a._id)}>Cancel</button>
               </td>
             </tr>
           ))}

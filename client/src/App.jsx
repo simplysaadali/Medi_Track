@@ -12,6 +12,16 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
 import { fetchMe } from "./features/auth/authSlice";
 
+
+function Forbidden() {
+  return (
+    <div>
+      <h2>403 — you do not have access to this page.</h2>
+      <p>A patient opened /staff directly. RoleRoute sent them here.</p>
+    </div>
+  );
+}
+
 export default function App() {
   const dispatch = useDispatch();
   const { booted } = useSelector((s) => s.auth);
@@ -31,7 +41,7 @@ export default function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot" element={<ForgotPassword />} />
         <Route path="/reset/:raw" element={<ResetPassword />} />
-        <Route path="/forbidden" element={<p className="page">403 - you do not have access to this page.</p>} />
+        <Route path="/forbidden" element={<Forbidden /> } />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />

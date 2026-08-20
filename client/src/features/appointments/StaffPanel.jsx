@@ -15,8 +15,8 @@ export default function StaffPanel() {
   }, []);
 
   const setStatus = async (id, status) => {
-    // TODO (Task 7.5): PATCH /staff/appointments/{id}/status with { status }, then load()
-  };
+      dispatch(updateStatus({ id, status }
+    ));
 
   return (
     <div className="page">
@@ -54,4 +54,4 @@ export default function StaffPanel() {
       </table>
     </div>
   );
-}
+}}
