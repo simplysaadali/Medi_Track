@@ -18,7 +18,6 @@ Stack: MongoDB · Express · React · Redux Toolkit · Vite
 Every place you need to type is marked with a comment like:
 
 ```js
-// TODO (Task 4.1): ...
 ```
 
 Search the whole project for `TODO (Task` in VS Code (Ctrl+Shift+F) to list them all.

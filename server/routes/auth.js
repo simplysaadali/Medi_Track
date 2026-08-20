@@ -72,29 +72,38 @@ router.post("/login", async (req, res) => {
 
   // catch
   } catch (error) {
-    res.status(500)
-    .json({ 
-      message: error.message
-    });
+    console.error("Error", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-/**
- * TASK 4.2 - GET /api/auth/me   (protected)
- * Rebuilds the session after a hard refresh: 200 = restore, 401 = show /login.
- */
 router.get("/me", protect, async (req, res) => {
-  // TODO (Task 4.2)
-  res.status(501).json({ msg: "Not implemented - Task 4.2" });
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(401).json({ message: "No User" });
+    }
+
+    res.status(200).json({
+      user: publicUser(user)
+    });
+  } catch (error) {
+    console.error("Error", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-/**
- * TASK 4.3 - POST /api/auth/logout
- * Only the server can delete an HttpOnly cookie. Pass the SAME cookieOptions.
- */
 router.post("/logout", (req, res) => {
-  // TODO (Task 4.3)
-  res.status(501).json({ msg: "Not implemented - Task 4.3" });
+  try {
+    router.post("/logout", (req, res) => {
+    res.clearCookie("token", cookieOptions);
+    res.json({ message: "Logged out" });
+  });
+  } catch (error) {
+    console.error("Error", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 /**
