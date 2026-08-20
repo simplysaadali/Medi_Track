@@ -7,17 +7,11 @@ const protect = require("../middleware/auth");
 
 const router = express.Router();
 
-/**
- * TASK 3.1 - One cookieOptions object, reused by register, login AND logout.
- * If clearCookie() is called with different options the browser keeps the cookie.
- *
- *   httpOnly : true
- *   secure   : true only in production
- *   sameSite : "lax" in development
- *   maxAge   : 7 days in MILLISECONDS
- */
 const cookieOptions = {
-  // TODO (Task 3.1): fill in the four properties
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
 const signToken = (user) =>
@@ -33,37 +27,55 @@ const publicUser = (u) => ({
   role: u.role,
 });
 
-/**
- * TASK 3.2 - POST /api/auth/register
- *   - reject a duplicate email with 400
- *   - hash the password with bcrypt (10 rounds)
- *   - create the user
- *   - res.cookie("token", signToken(user), cookieOptions).status(201).json({ user: publicUser(user) })
- */
 router.post("/register", async (req, res) => {
+  // try
   try {
-    const { name, email, password } = req.body;
-    // TODO (Task 3.2)
-    res.status(501).json({ msg: "Not implemented - Task 3.2" });
-  } catch (err) {
-    res.status(500).json({ msg: err.message });
+      const { name, email, password } = req.body;
+    if(await User.findOne ({ email }))
+      return res.status(400)
+      .json({
+        message: "Email already registered" 
+      });
+
+    const hash = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      name,
+      email,
+      password: hash
+    });
+
+    res.cookie("token", signToken(user), cookieOptions)
+      .status(201)
+      .json({
+        user: publicUser(user)
+    });
+  }
+  // catch
+  catch (error) {
+    res.status(500)
+    .json({
+      message: error.message
+    });
   }
 });
 
-/**
- * TASK 3.3 - POST /api/auth/login
- *   - findOne({ email }).select("+password")   <- required because select:false
- *   - bcrypt.compare
- *   - ONE message, "Invalid credentials", for both a wrong email and a wrong password
- *   - same three closing lines as register, but status 200
- */
 router.post("/login", async (req, res) => {
+  // try
   try {
     const { email, password } = req.body;
-    // TODO (Task 3.3)
-    res.status(501).json({ msg: "Not implemented - Task 3.3" });
-  } catch (err) {
-    res.status(500).json({ msg: err.message });
+    const user = await User.findOne({ email }).select("+password");
+    const ok = user && (await bcrypt.compare(password, user.password));
+    if (!ok) return res.status(400).json({ msg: "Invalid credentials" });
+    res.cookie("token", signToken(user), cookieOptions)
+      .status(200)
+      .json({ user: publicUser(user) });
+
+  // catch
+  } catch (error) {
+    res.status(500)
+    .json({ 
+      message: error.message
+    });
   }
 });
 
