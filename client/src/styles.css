@@ -55,6 +55,21 @@ body {
   flex: 1;
 }
 
+/* Ensure buttons in the navbar align with links (override global button margin) */
+.nav button {
+  margin-top: 0;
+  padding: 7px 12px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+}
+
+.nav a,
+.nav button {
+  vertical-align: middle;
+}
+
 /* Layout */
 .page {
   max-width: 900px;

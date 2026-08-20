@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../features/auth/authSlice";
 
@@ -6,6 +6,7 @@ export default function Navbar() {
   const { isAuthenticated, user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await dispatch(logoutUser());
@@ -18,7 +19,13 @@ export default function Navbar() {
       <div className="spacer" />
       {isAuthenticated ? (
         <>
-          <Link to="/appointments-only">My appointments</Link>
+          {location.pathname === "/appointments-only" ? (
+            <>
+              <Link to="/dashboard">Dashboard</Link>
+            </>
+          ) : (
+            <Link to="/appointments-only">My appointments</Link>
+          )}
           {user?.role === "staff" && <Link to="/staff">Clinic schedule</Link>}
           <button onClick={handleLogout}>Log out</button>
         </>

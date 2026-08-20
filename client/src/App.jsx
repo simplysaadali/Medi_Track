@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
 import LoginForm from "./features/auth/LoginForm";
@@ -33,11 +33,9 @@ export default function App() {
 
   if (!booted) return <p className="page">Starting MediTrack...</p>;
 
-  const location = useLocation();
-
   return (
     <>
-      {location.pathname !== "/appointments-only" && <Navbar />}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<LoginForm />} />
