@@ -133,7 +133,7 @@ The frontend owns presentation and request state. The API owns authentication, a
 - **One decision path:** appointment status changes use the same API record that appears in both patient and staff views.
 - **Failure visibility:** API errors are surfaced in the relevant screen instead of leaving an empty table with no explanation.
 
-## Technology Stack
+## Techn Stack
 
 | Layer | Technology |
 | --- | --- |
