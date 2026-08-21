@@ -1,4 +1,4 @@
-![MediTrack Banner](https://capsule-render.vercel.app/api?type=waving&color=252422&height=180&section=header&text=🏥MediTrack&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38)
+![MediTrack Banner](https://capsule-render.vercel.app/api?type=waving&color=eb5e28&height=180&section=header&text=MediTrack&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38)
 
 **Built with:** React + Redux Toolkit · Express · MongoDB · JWT cookies
 
