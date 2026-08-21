@@ -13,11 +13,6 @@
 [![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)](https://mongoosejs.com/)
 [![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 [![bcryptjs](https://img.shields.io/badge/bcryptjs-003B57?style=for-the-badge)](https://www.npmjs.com/package/bcryptjs)
-[![Helmet](https://img.shields.io/badge/Helmet-844C9E?style=for-the-badge)](https://helmetjs.github.io/)
-[![express--rate--limit](https://img.shields.io/badge/express--rate--limit-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/express-rate-limit)
-[![express--mongo--sanitize](https://img.shields.io/badge/express--mongo--sanitize-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/express-mongo-sanitize)
-
-# MediTrack
 
 ## Clinic Appointment Portal
 
