@@ -1,4 +1,6 @@
-# MediTrack | Clinic Appointment Portal
+# MediTrack
+
+## Clinic Appointment Portal
 
 > A focused digital front desk for turning appointment requests into clear, trackable clinic decisions.
 
@@ -8,11 +10,26 @@ MediTrack connects two everyday workflows in one small, secure portal: patients 
 | --- | --- |
 | Create, review, and cancel appointment requests | Review the full clinic queue and update request status |
 
+<p align="center">
+  <strong>Patients request care. Staff make decisions. Everyone sees what happens next.</strong>
+</p>
+
+<p align="center">
+  <a href="#getting-started">Quick start</a> ·
+  <a href="#product-tour">Screenshots</a> ·
+  <a href="#api-overview">API</a> ·
+  <a href="#troubleshooting">Troubleshooting</a>
+</p>
+
+<p align="center">
+  <img src="ScreenShots/Dashboard.png" alt="MediTrack patient dashboard" width="880">
+</p>
+
+<p align="center"><em>The patient dashboard is the starting point for a request that becomes a staff decision.</em></p>
+
 **Built with:** React + Redux Toolkit · Express · MongoDB · JWT cookies
 
-![MediTrack clinic appointment portal](https://dummyimage.com/1200x360/f7f3e8/403d39.png&text=MediTrack+Clinic+Appointment+Portal)
-
-## At A Glance
+## The Product In One Minute
 
 | | Capability | What it does |
 | --- | --- | --- |
@@ -22,18 +39,30 @@ MediTrack connects two everyday workflows in one small, secure portal: patients 
 | **04** | Clear decisions | Staff confirm or cancel requests; status is reflected in the patient view |
 | **05** | Recovery built in | Password reset tokens are hashed and expire after 15 minutes |
 
-## How The Workflow Moves
+### Two roles, one shared truth
+
+| Patient | Staff |
+| --- | --- |
+| Requests an appointment with the doctor, reason, and preferred time. | Sees the clinic-wide queue with patient details and scheduled times. |
+| Tracks whether the request is `requested`, `confirmed`, or `cancelled`. | Moves a request forward with a clear Confirm or Cancel action. |
+| Controls only their own appointments. | Gets access only when the server verifies the `staff` role. |
+
+## The Request Lifecycle
 
 ```mermaid
 flowchart LR
-    A[1. Login] --> B[2. Dashboard]
-    B --> C[3. My appointments]
-    C --> D[Create appointment request]
-    D --> E[(MongoDB)]
-    E --> F[4. Staff clinic schedule]
-    F --> G{Staff decision}
-    G --> H[Confirmed]
-    G --> I[Cancelled]
+  A[Login] --> B[Dashboard]
+  B --> C[My appointments]
+  C --> D[Request appointment]
+  D --> E[(MongoDB)]
+  E --> F[Staff clinic schedule]
+  F --> G{Decision}
+  G --> H[Confirmed]
+  G --> I[Cancelled]
+  classDef screen fill:#252422,color:#fffcf2,stroke:#eb5e28,stroke-width:2px;
+  classDef data fill:#d1e8d1,color:#2d5a2d,stroke:#2f855a,stroke-width:2px;
+  class A,B,C,D,F,G screen;
+  class E,H,I data;
 ```
 
 | Stage | Screen | Responsibility |
@@ -43,7 +72,7 @@ flowchart LR
 | **3** | **My appointments** | Track personal requests, statuses, and cancellations |
 | **4** | **Staff clinic schedule** | Review the full queue and confirm or cancel requests |
 
-Every new request begins as `requested`, travels through the API into MongoDB, and returns to the appropriate workspace as its status changes.
+Every request begins as `requested`, travels through the API into MongoDB, and returns to the appropriate workspace as its status changes. The patient and staff screens are two views of the same appointment record, not disconnected workflows.
 
 ## What Is Included
 
@@ -70,6 +99,27 @@ Every new request begins as `requested`, travels through the API into MongoDB, a
 - MongoDB query sanitization
 - Rate limiting for authentication endpoints
 - Credentialed CORS configuration
+
+## Architecture At A Glance
+
+```mermaid
+flowchart TB
+  UI[React UI<br/>Routes + Screens] --> STATE[Redux Toolkit<br/>Auth + appointments]
+  STATE --> API[Axios API client<br/>withCredentials]
+  API --> SERVER[Express API]
+  SERVER --> AUTH[JWT + role middleware]
+  SERVER --> DATA[(MongoDB / Mongoose)]
+  AUTH --> DATA
+```
+
+The frontend owns presentation and request state. The API owns authentication, authorization, validation boundaries, and persistence. The database remains the source of truth, so a reload or a second browser tab can restore the current session and appointment data.
+
+## Engineering Notes
+
+- **Session continuity:** the JWT lives in an HttpOnly cookie; the app restores user state through `/api/auth/me` instead of trusting browser storage.
+- **Least privilege:** patients can access only their own appointments, while staff access is checked again on the server.
+- **One decision path:** appointment status changes use the same API record that appears in both patient and staff views.
+- **Failure visibility:** API errors are surfaced in the relevant screen instead of leaving an empty table with no explanation.
 
 ## Technology Stack
 
