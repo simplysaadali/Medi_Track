@@ -7,7 +7,9 @@ const requireRole = require("../middleware/requireRole");
 const router = express.Router();
 
 router.get("/appointments", protect, requireRole("staff"), async (req, res) => {
-  const appointments = (await Appointment.find().populate("owner", "name email")).sort({ scheduledFor: 1 })
+  const appointments = await Appointment.find()
+    .populate("owner", "name email")
+    .sort({ scheduledFor: 1 });
   res.json({ appointments });
 });
 

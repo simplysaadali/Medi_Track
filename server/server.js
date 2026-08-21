@@ -3,8 +3,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const { rateLimit } = require("express-rate-limit");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const app = express();
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+});
 
 /**
  * TASK 1.4 - Middleware order matters. Everything below must be registered
@@ -24,15 +34,12 @@ app.use(
     credentials: true,
   })
 );
-
-// TASK 9 (BONUS) - hardening
-// TODO (Task 9.1): app.use(helmet());
-// TODO (Task 9.2): rate-limit /api/auth with express-rate-limit
-// TODO (Task 9.3): app.use(mongoSanitize()) to block NoSQL injection
+app.use(helmet());
+app.use(mongoSanitize());
 
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
-app.use("/api/auth", require("./routes/auth"));
+app.use("/api/auth", authLimiter, require("./routes/auth"));
 app.use("/api/appointments", require("./routes/appointments"));
 app.use("/api/staff", require("./routes/staff"));
 

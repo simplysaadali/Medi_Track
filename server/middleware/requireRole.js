@@ -3,7 +3,7 @@ function requireRole(...allowed) {
     if(!req.user)
       return res.status(401).json({ message: "Not Authorized" });
     if(!allowed.includes(req.user.role))
-      return res.status(403).json({ message: "Forbiddemn - Insufficient Role" });
+      return res.status(403).json({ message: "Forbidden - Insufficient Role" });
     next();
   };
 }

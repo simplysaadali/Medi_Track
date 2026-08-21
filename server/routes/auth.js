@@ -62,7 +62,8 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   // try
   try {
-    const { email, password } = req.body;
+    const { password } = req.body;
+    const email = String(req.body.email ?? "").trim().toLowerCase();
     const user = await User.findOne({ email }).select("+password");
     const ok = user && (await bcrypt.compare(password, user.password));
     if (!ok) return res.status(400).json({ msg: "Invalid credentials" });
@@ -113,7 +114,28 @@ router.post("/logout", (req, res) => {
  */
 router.post("/forgot-password", async (req, res) => {
   const generic = { msg: "If that email exists, a reset link was sent" };
-  // TODO (Task 8.2)
+
+  try {
+    const email = String(req.body.email ?? "").trim().toLowerCase();
+    const user = await User.findOne({ email });
+
+    if (user) {
+      const raw = crypto.randomBytes(32).toString("hex");
+      const resetTokenHash = crypto
+        .createHash("sha256")
+        .update(raw)
+        .digest("hex");
+
+      user.resetTokenHash = resetTokenHash;
+      user.resetTokenExpires = new Date(Date.now() + 15 * 60 * 1000);
+      await user.save();
+
+      console.log(`${process.env.CLIENT_URL}/reset/${raw}`);
+    }
+  } catch (error) {
+    console.error("Password reset request failed", error);
+  }
+
   res.json(generic);
 });
 
@@ -124,8 +146,36 @@ router.post("/forgot-password", async (req, res) => {
  *   - re-hash the new password, then clear both reset fields
  */
 router.post("/reset-password/:raw", async (req, res) => {
-  // TODO (Task 8.3)
-  res.status(501).json({ msg: "Not implemented - Task 8.3" });
+  const { password } = req.body;
+
+  if (typeof password !== "string" || password.length < 6) {
+    return res.status(400).json({ msg: "Password must be at least 6 characters" });
+  }
+
+  try {
+    const resetTokenHash = crypto
+      .createHash("sha256")
+      .update(req.params.raw)
+      .digest("hex");
+    const user = await User.findOne({
+      resetTokenHash,
+      resetTokenExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ msg: "Invalid or expired reset token" });
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    user.resetTokenHash = undefined;
+    user.resetTokenExpires = undefined;
+    await user.save();
+
+    res.json({ msg: "Password reset successful" });
+  } catch (error) {
+    console.error("Password reset failed", error);
+    res.status(500).json({ msg: "Server error" });
+  }
 });
 
 module.exports = router;

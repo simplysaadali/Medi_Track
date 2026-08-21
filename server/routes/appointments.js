@@ -19,18 +19,22 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const appointment = await Appointment.create({
-    doctor: req.body.doctor,
-    reason: req.body.reason,
-    scheduledFor: req.body.scheduledFor,
-    owner: req.user.id,
-  });
-  res.status(201).json({ appointment })
+  try {
+    const appointment = await Appointment.create({
+      doctor: req.body.doctor,
+      reason: req.body.reason,
+      scheduledFor: req.body.scheduledFor,
+      owner: req.user.id,
+    });
+    res.status(201).json({ appointment });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
 router.put("/:id", async (req, res) => {
   try {
-     const appointment = await Appointment.findByIdAndUpdate({
+     const appointment = await Appointment.findOneAndUpdate({
        _id: req.params.id,
        owner: req.user.id,
      },
@@ -53,7 +57,7 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const appointment = await Appointment.findByIdAndDelete({
+  const appointment = await Appointment.findOneAndDelete({
     _id: req.params.id,
     owner: req.user.id,
   });

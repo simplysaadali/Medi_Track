@@ -35,7 +35,14 @@ const userSchema = new mongoose.Schema(
       enum: ["patient", "staff"],
       default: "patient",
     },
-    // TODO (Task 8.1): add resetTokenHash and resetTokenExpires
+
+    resetTokenHash: {
+      type: String,
+    },
+
+    resetTokenExpires: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );

@@ -15,6 +15,18 @@ export const setUnauthorisedHandler = (fn) => {
   onUnauthorised = fn;
 };
 
-// TODO (Task 7.4): api.interceptors.response.use(...) and always re-reject the error
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const requestUrl = error.config?.url?.split(/[?#]/)[0];
+    const isAuthMeRequest = requestUrl === "/auth/me" || requestUrl?.endsWith("/auth/me");
+
+    if (error.response?.status === 401 && !isAuthMeRequest) {
+      onUnauthorised();
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default api;

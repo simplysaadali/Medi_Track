@@ -12,8 +12,18 @@ export default function ResetPassword() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // TODO (Task 8.5): refuse to submit unless password === confirm,
-    // then POST /auth/reset-password/${raw} and navigate("/login") on success.
+
+    if (password !== confirm) {
+      setMsg("Passwords do not match");
+      return;
+    }
+
+    try {
+      await api.post(`/auth/reset-password/${raw}`, { password });
+      navigate("/login");
+    } catch (error) {
+      setMsg(error.response?.data?.msg ?? "Unable to reset password");
+    }
   };
 
   return (

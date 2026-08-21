@@ -18,7 +18,7 @@ export default function Dashboard() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(createAppointment(form));
-    if(!createAppointment.fulfilled.match(result)){
+    if(createAppointment.fulfilled.match(result)){
       setForm({
         doctor: "",
         reason: "",

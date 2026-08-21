@@ -190,6 +190,34 @@ button:disabled {
   background: rgba(235, 94, 40, 0.05);
 }
 
+.staff-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.staff-actions button {
+  margin-top: 0;
+  padding: 8px 12px;
+}
+
+.staff-actions .confirm-button {
+  background: #2f855a;
+}
+
+.staff-actions .confirm-button:hover {
+  background: #276749;
+}
+
+.staff-actions .cancel-button {
+  background: #c53030;
+}
+
+.staff-actions .cancel-button:hover {
+  background: #9b2c2c;
+}
+
 /* Badges */
 .badge {
   padding: 2px 8px;
