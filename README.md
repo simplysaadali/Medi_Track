@@ -219,3 +219,29 @@ node --check server/server.js
 ## License
 
 No license has been specified for this project.
+
+## Application Screenshots
+
+### 1. Login
+
+The secure entry point for patients and staff.
+
+![MediTrack login page](ScreenShots/Login_Page.png)
+
+### 2. Dashboard
+
+The patient dashboard for creating a new appointment request.
+
+![MediTrack patient dashboard](ScreenShots/Dashboard.png)
+
+### 3. My Appointments
+
+Patients can review their requests and monitor each appointment status.
+
+![MediTrack my appointments page](ScreenShots/My_Appointments.png)
+
+### 4. Staff Clinic Schedule
+
+Staff can review incoming requests and confirm or cancel appointments.
+
+![MediTrack staff approval screen](ScreenShots/Staff_Approving.png)
