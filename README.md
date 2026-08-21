@@ -1,30 +1,135 @@
-# MediTrack — Clinic Appointment Portal
+# MediTrack
 
-Lightweight clinic appointment demo app (patient/staff) with auth, cookies, and a React + Redux frontend.
+## Clinic Appointment Portal
 
-Tech stack
-- **Backend:** Node.js, Express, MongoDB (Mongoose), JWT stored in an HttpOnly cookie
-- **Frontend:** React, Vite, React Router, Redux Toolkit, Axios
-- **Dev tools:** nodemon (server), Vite (client)
+MediTrack is a full-stack clinic appointment portal for patients and clinic staff. Patients can create and manage appointment requests, while staff can review the clinic-wide schedule and approve or cancel requests.
 
-Status
-- Basic authentication, appointment CRUD, and staff panel implemented. Logout, protected routes, and cookie-based auth are active.
+![MediTrack clinic appointment portal](https://dummyimage.com/1200x360/f7f3e8/403d39.png&text=MediTrack+Clinic+Appointment+Portal)
 
-Getting started
+## Patient and Staff Journey
 
-1) Backend
+```mermaid
+flowchart LR
+    A[1. Login] --> B[2. Dashboard]
+    B --> C[3. My appointments]
+    C --> D[Create appointment request]
+    D --> E[(MongoDB)]
+    E --> F[4. Staff clinic schedule]
+    F --> G{Staff decision}
+    G --> H[Confirmed]
+    G --> I[Cancelled]
+```
+
+### 1. Login
+
+Users sign in with their email and password. The server issues a JWT in an HttpOnly cookie, and the frontend restores the session with `GET /api/auth/me` when the app opens or reloads.
+
+### 2. Dashboard
+
+The dashboard is the patient workspace. It shows the signed-in user and provides the form for requesting an appointment with:
+
+- Doctor
+- Reason for visit
+- Date and time
+
+New requests start with the `requested` status.
+
+### 3. My appointments
+
+The My appointments view displays the patient's own requests, including the doctor, reason, scheduled time, and current status. Patients can cancel their requests from this screen.
+
+### 4. Staff clinic schedule
+
+Staff users can open Clinic schedule from the navigation bar. This view lists every appointment request with the patient name and provides separate actions to:
+
+- Confirm a request
+- Cancel a request
+
+The staff role is enforced by the API as well as the frontend route guard.
+
+## Features
+
+- Cookie-based JWT authentication
+- Protected patient and staff routes
+- Patient appointment creation, listing, and cancellation
+- Staff-wide appointment review and status management
+- Password reset flow with hashed, expiring tokens
+- Centralized handling of unauthorized API responses
+- Helmet security headers
+- MongoDB query sanitization
+- Rate limiting for authentication endpoints
+- CORS configured for credentialed requests
+
+## Technology Stack
+
+| Layer | Technology |
+| --- | --- |
+| Frontend | React, Vite, React Router, Redux Toolkit, Axios |
+| Backend | Node.js, Express |
+| Database | MongoDB with Mongoose |
+| Authentication | JWT in an HttpOnly cookie, bcryptjs |
+| Security | Helmet, express-rate-limit, express-mongo-sanitize |
+
+## Project Structure
+
+```text
+Medi_Track/
+├── client/
+│   └── src/
+│       ├── api/axios.js                 # Axios client and 401 handling
+│       ├── app/store.js                 # Redux store
+│       ├── components/Navbar.jsx        # Navigation and role links
+│       ├── features/
+│       │   ├── appointments/
+│       │   │   ├── Dashboard.jsx         # Patient dashboard
+│       │   │   ├── AppointmentsOnly.jsx  # Patient appointment list
+│       │   │   ├── StaffPanel.jsx        # Staff clinic schedule
+│       │   │   └── appointmentsSlice.js  # Appointment state and API calls
+│       │   └── auth/                     # Login, registration, reset flows
+│       └── routes/                       # Protected and role-based routes
+├── server/
+│   ├── middleware/                       # Auth, role, and security middleware
+│   ├── models/                           # User and Appointment schemas
+│   ├── routes/                           # Auth, patient, and staff APIs
+│   └── server.js                         # Express entrypoint
+└── README.md
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or newer
+- MongoDB running locally, or a MongoDB Atlas connection string
+
+### 1. Configure the server
 
 ```bash
 cd server
 npm install
-cp .env.example .env   # Windows: copy .env.example .env
-# Edit .env: set MONGO_URI and JWT_SECRET (use a long random string)
+```
+
+Create `server/.env`:
+
+```env
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/meditrack
+JWT_SECRET=replace-with-a-long-random-secret
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
+```
+
+Start the API:
+
+```bash
 npm run dev
 ```
 
-The API defaults to http://localhost:5000. Health check: http://localhost:5000/api/health
+The API runs at `http://localhost:5000`.
 
-2) Frontend
+### 2. Start the frontend
+
+Open a second terminal:
 
 ```bash
 cd client
@@ -32,84 +137,85 @@ npm install
 npm run dev
 ```
 
-The client defaults to http://localhost:5173 (Vite).
+Open `http://localhost:5173` in the browser.
 
-Notes on cookies and CORS
-- The client `axios` instance uses `withCredentials: true` so the browser will send cookies.
-- The server sets `cors({ origin: process.env.CLIENT_URL, credentials: true })` and uses `cookie-parser`.
+> Keep the host consistent. Use `localhost` for both the frontend and API configuration; switching between `localhost` and `127.0.0.1` creates separate browser cookie scopes.
 
-Environment variables (`server/.env`)
-- `MONGO_URI` — your MongoDB connection string
-- `JWT_SECRET` — long random secret for signing tokens
-- `PORT` — optional (defaults to 5000)
+## Creating a Staff Account
 
-Quick API map
-- `POST /api/auth/register` — register and set cookie
-- `POST /api/auth/login` — login and set cookie
-- `GET /api/auth/me` — returns current user (requires cookie)
-- `POST /api/auth/logout` — clears cookie
-- `GET/POST /api/appointments` — patient: list/create own appointments
-- `DELETE /api/appointments/:id` — cancel own appointment
-- `GET /api/staff/appointments` — staff-only: view all appointments
-- `PATCH /api/staff/appointments/:id/status` — staff-only: update status
+Registration creates patient accounts by default. To test the staff workflow, update an existing user in MongoDB:
 
-File structure (top-level)
-
-- `client/` — React app
-	- `src/` — source code
-		- `api/axios.js` — axios instance (withCredentials)
-		- `app/store.js` — redux store
-		- `components/Navbar.jsx` — top nav (login/logout links)
-		- `features/appointments/` — `appointmentsSlice.js`, `Dashboard.jsx`, `StaffPanel.jsx`
-		- `features/auth/` — `authSlice.js`, `LoginForm.jsx`, `RegisterForm.jsx`, password flows
-		- `routes/ProtectedRoute.jsx`, `RoleRoute.jsx`
-
-- `server/` — Express API
-	- `routes/auth.js` — register/login/me/logout
-	- `routes/appointments.js` — appointment endpoints
-	- `routes/staff.js` — staff-only endpoints
-	- `middleware/auth.js` — cookie jwt protect middleware
-	- `models/User.js`, `models/Appointment.js`
-
-How to use the app (basic)
-- Register as a patient from the UI.
-- The server sets an HttpOnly cookie containing the JWT. The frontend calls `GET /api/auth/me` to populate user state.
-- Access `My appointments` to view, create, or cancel appointment requests.
-- To test staff features, set the user's `role` to `staff` in the database (manual change) and sign in.
-
-Testing logout (quick)
-
-Server running on port 5000:
-
-```bash
-curl -i -X POST http://localhost:5000/api/auth/logout
+```js
+db.users.updateOne(
+  { email: "staff@example.com" },
+  { $set: { role: "staff" } }
+)
 ```
 
-Or click the `Log out` button in the UI — it dispatches `logoutUser()` which posts to `/api/auth/logout` and clears frontend state.
+Sign out and sign in again after changing the role so the new JWT contains `role: "staff"`. The Clinic schedule link will then appear in the navbar.
 
-Why this structure and benefits
-- Cookie-based JWT (HttpOnly) reduces risk of token theft via XSS compared to localStorage.
-- Clear separation of responsibilities: the backend handles auth and data rules; the frontend handles presentation and local state.
-- Redux Toolkit keeps async flows and state predictable.
+## API Overview
 
-Real-world usage examples
-- Small clinics that need appointment requests and staff scheduling.
-- Prototype for an EMR front-end where auth and role-based access are required.
+### Authentication
 
-Possible improvements
-- Add refresh tokens / short-lived access tokens for stronger security.
-- Email notifications for appointment confirmations / cancellations.
-- Pagination and filtering on appointment lists.
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/auth/register` | Create a patient account |
+| `POST` | `/api/auth/login` | Sign in and set the auth cookie |
+| `GET` | `/api/auth/me` | Restore the current session |
+| `POST` | `/api/auth/logout` | Clear the auth cookie |
+| `POST` | `/api/auth/forgot-password` | Create a 15-minute reset token |
+| `POST` | `/api/auth/reset-password/:raw` | Set a new password |
 
-Contributing
-- Fixes or improvements: fork, branch, PR. Keep `.env` out of commits.
+### Appointments
 
-License
-- No license specified — add one if you plan to share publicly.
+| Method | Endpoint | Access |
+| --- | --- | --- |
+| `GET` | `/api/appointments` | Authenticated patient |
+| `POST` | `/api/appointments` | Authenticated patient |
+| `DELETE` | `/api/appointments/:id` | Appointment owner |
+| `GET` | `/api/staff/appointments` | Staff only |
+| `PATCH` | `/api/staff/appointments/:id/status` | Staff only |
 
-If you want, I can also:
-- Add a small test script that runs a few API smoke tests, or
-- Create a short developer checklist or docker-compose for easier local runs.
+Health check:
 
----
+```text
+GET http://localhost:5000/api/health
+```
 
+## Session and Security Notes
+
+- Authentication cookies are HttpOnly and are sent by Axios with `withCredentials: true`.
+- The frontend calls `/api/auth/me` after a full page reload to restore the Redux auth state.
+- Do not store `JWT_SECRET` or database credentials in source control.
+- Password reset records store only a SHA-256 token hash and an expiration date.
+- Authentication routes are rate-limited, and request data is sanitized against NoSQL injection.
+
+## Validation
+
+Build the frontend:
+
+```bash
+cd client
+npm run build
+```
+
+Check the server entrypoint:
+
+```bash
+node --check server/server.js
+```
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Login returns `Invalid credentials` | Confirm the email, password, and MongoDB user record |
+| Login disappears after reload | Confirm the API is running and use the same `localhost` host consistently |
+| Patient request does not save | Confirm MongoDB is running and `MONGO_URI` is reachable |
+| Clinic schedule link is missing | Confirm the account has `role: "staff"`, then sign in again |
+| Clinic schedule is empty | Confirm the patient request was saved and the staff account can access `/api/staff/appointments` |
+
+## License
+
+No license has been specified for this project.
