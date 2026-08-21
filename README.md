@@ -1,6 +1,21 @@
 ![MediTrack Banner](https://capsule-render.vercel.app/api?type=waving&color=eb5e28&height=180&section=header&text=MediTrack&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38)
 
-**Built with:** React + Redux Toolkit · Express · MongoDB · JWT cookies
+**Built with:**
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
+[![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white)](https://reactrouter.com/)
+[![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white)](https://redux-toolkit.js.org/)
+[![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)](https://axios-http.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)](https://mongoosejs.com/)
+[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+[![bcryptjs](https://img.shields.io/badge/bcryptjs-003B57?style=for-the-badge)](https://www.npmjs.com/package/bcryptjs)
+[![Helmet](https://img.shields.io/badge/Helmet-844C9E?style=for-the-badge)](https://helmetjs.github.io/)
+[![express--rate--limit](https://img.shields.io/badge/express--rate--limit-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/express-rate-limit)
+[![express--mongo--sanitize](https://img.shields.io/badge/express--mongo--sanitize-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/express-mongo-sanitize)
 
 # MediTrack
 
