@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Environment and local configuration
+.env
+
+# Build output
+dist/
+
+# Operating system files
+.DS_Store
+
+# Local screenshots and visual references
+ScreenShots/
