@@ -1,6 +1,6 @@
 ![MediTrack Banner](https://capsule-render.vercel.app/api?type=waving&color=eb5e28&height=180&section=header&text=MediTrack&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38)
 
-**Built with:**
+**Stack Used:**
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
@@ -133,7 +133,7 @@ The frontend owns presentation and request state. The API owns authentication, a
 - **One decision path:** appointment status changes use the same API record that appears in both patient and staff views.
 - **Failure visibility:** API errors are surfaced in the relevant screen instead of leaving an empty table with no explanation.
 
-## Technology Stack
+## Techn Stack
 
 | Layer | Technology |
 | --- | --- |
