@@ -1,3 +1,7 @@
+![MediTrack Banner](https://capsule-render.vercel.app/api?type=waving&color=252422&height=180&section=header&text=🏥MediTrack&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38)
+
+**Built with:** React + Redux Toolkit · Express · MongoDB · JWT cookies
+
 # MediTrack
 
 ## Clinic Appointment Portal
@@ -26,8 +30,6 @@ MediTrack connects two everyday workflows in one small, secure portal: patients 
 </p>
 
 <p align="center"><em>The patient dashboard is the starting point for a request that becomes a staff decision.</em></p>
-
-**Built with:** React + Redux Toolkit · Express · MongoDB · JWT cookies
 
 ## The Product In One Minute
 
@@ -285,14 +287,36 @@ No license has been specified for this project.
 
 The screenshots follow the same path a user takes through the portal.
 
-| 1 · Login | 2 · Dashboard |
-| --- | --- |
-| [![MediTrack login page](ScreenShots/Login_Page.png)](ScreenShots/Login_Page.png) | [![MediTrack dashboard](ScreenShots/Dashboard.png)](ScreenShots/Dashboard.png) |
-| Secure entry for patients and staff | Create a new appointment request |
+### 1 · Login
 
-| 3 · My Appointments | 4 · Staff Clinic Schedule |
-| --- | --- |
-| [![MediTrack my appointments](ScreenShots/My_Appointments.png)](ScreenShots/My_Appointments.png) | [![MediTrack staff schedule](ScreenShots/Staff_Approving.png)](ScreenShots/Staff_Approving.png) |
-| Track personal requests and statuses | Review, confirm, or cancel clinic requests |
+<p align="center">
+  <img src="ScreenShots/Login_Page.png" alt="MediTrack login page" width="880">
+</p>
+
+<p align="center"><em>Secure entry for patients and staff</em></p>
+
+### 2 · Dashboard
+
+<p align="center">
+  <img src="ScreenShots/Dashboard.png" alt="MediTrack dashboard" width="880">
+</p>
+
+<p align="center"><em>Create a new appointment request</em></p>
+
+### 3 · My Appointments
+
+<p align="center">
+  <img src="ScreenShots/My_Appointments.png" alt="MediTrack my appointments" width="880">
+</p>
+
+<p align="center"><em>Track personal requests and statuses</em></p>
+
+### 4 · Staff Clinic Schedule
+
+<p align="center">
+  <img src="ScreenShots/Staff_Approving.png" alt="MediTrack staff schedule" width="880">
+</p>
+
+<p align="center"><em>Review, confirm, or cancel clinic requests</em></p>
 
 > The images in `ScreenShots/` are visual references from the running application. Keep the folder available when previewing this README locally.
