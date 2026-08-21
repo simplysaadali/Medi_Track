@@ -1,12 +1,28 @@
-# MediTrack
+# MediTrack | Clinic Appointment Portal
 
-## Clinic Appointment Portal
+> A focused digital front desk for turning appointment requests into clear, trackable clinic decisions.
 
-MediTrack is a full-stack clinic appointment portal for patients and clinic staff. Patients can create and manage appointment requests, while staff can review the clinic-wide schedule and approve or cancel requests.
+MediTrack connects two everyday workflows in one small, secure portal: patients request care and follow progress, while staff review the shared schedule and act on each request.
+
+| Patient workspace | Staff workspace |
+| --- | --- |
+| Create, review, and cancel appointment requests | Review the full clinic queue and update request status |
+
+**Built with:** React + Redux Toolkit · Express · MongoDB · JWT cookies
 
 ![MediTrack clinic appointment portal](https://dummyimage.com/1200x360/f7f3e8/403d39.png&text=MediTrack+Clinic+Appointment+Portal)
 
-## Patient and Staff Journey
+## At A Glance
+
+| | Capability | What it does |
+| --- | --- | --- |
+| **01** | Secure access | Cookie-based authentication, protected routes, and role-based staff access |
+| **02** | Appointment requests | Patients submit a doctor, reason, and preferred date and time |
+| **03** | Shared visibility | Staff see every request while patients see only their own appointments |
+| **04** | Clear decisions | Staff confirm or cancel requests; status is reflected in the patient view |
+| **05** | Recovery built in | Password reset tokens are hashed and expire after 15 minutes |
+
+## How The Workflow Moves
 
 ```mermaid
 flowchart LR
@@ -20,45 +36,40 @@ flowchart LR
     G --> I[Cancelled]
 ```
 
-### 1. Login
+| Stage | Screen | Responsibility |
+| --- | --- | --- |
+| **1** | **Login** | Authenticate the patient or staff member and restore the session on reload |
+| **2** | **Dashboard** | Enter a doctor, reason, and preferred appointment time |
+| **3** | **My appointments** | Track personal requests, statuses, and cancellations |
+| **4** | **Staff clinic schedule** | Review the full queue and confirm or cancel requests |
 
-Users sign in with their email and password. The server issues a JWT in an HttpOnly cookie, and the frontend restores the session with `GET /api/auth/me` when the app opens or reloads.
+Every new request begins as `requested`, travels through the API into MongoDB, and returns to the appropriate workspace as its status changes.
 
-### 2. Dashboard
+## What Is Included
 
-The dashboard is the patient workspace. It shows the signed-in user and provides the form for requesting an appointment with:
+### Patient experience
 
-- Doctor
-- Reason for visit
-- Date and time
+- Cookie-based sign in and session restoration
+- Appointment request form with date and time
+- Personal appointment history
+- Cancellation of owned requests
+- Forgot-password and reset-password flows
 
-New requests start with the `requested` status.
+### Clinic operations
 
-### 3. My appointments
+- Staff-only clinic schedule
+- Patient details alongside each request
+- Confirm and cancel actions with visible statuses
+- Server-side role enforcement in addition to route guards
 
-The My appointments view displays the patient's own requests, including the doctor, reason, scheduled time, and current status. Patients can cancel their requests from this screen.
+### Security foundation
 
-### 4. Staff clinic schedule
-
-Staff users can open Clinic schedule from the navigation bar. This view lists every appointment request with the patient name and provides separate actions to:
-
-- Confirm a request
-- Cancel a request
-
-The staff role is enforced by the API as well as the frontend route guard.
-
-## Features
-
-- Cookie-based JWT authentication
-- Protected patient and staff routes
-- Patient appointment creation, listing, and cancellation
-- Staff-wide appointment review and status management
-- Password reset flow with hashed, expiring tokens
-- Centralized handling of unauthorized API responses
+- HttpOnly JWT cookies
+- Centralized unauthorized-response handling
 - Helmet security headers
 - MongoDB query sanitization
 - Rate limiting for authentication endpoints
-- CORS configured for credentialed requests
+- Credentialed CORS configuration
 
 ## Technology Stack
 
@@ -220,28 +231,18 @@ node --check server/server.js
 
 No license has been specified for this project.
 
-## Application Screenshots
+## Product Tour
 
-### 1. Login
+The screenshots follow the same path a user takes through the portal.
 
-The secure entry point for patients and staff.
+| 1 · Login | 2 · Dashboard |
+| --- | --- |
+| [![MediTrack login page](ScreenShots/Login_Page.png)](ScreenShots/Login_Page.png) | [![MediTrack dashboard](ScreenShots/Dashboard.png)](ScreenShots/Dashboard.png) |
+| Secure entry for patients and staff | Create a new appointment request |
 
-![MediTrack login page](ScreenShots/Login_Page.png)
+| 3 · My Appointments | 4 · Staff Clinic Schedule |
+| --- | --- |
+| [![MediTrack my appointments](ScreenShots/My_Appointments.png)](ScreenShots/My_Appointments.png) | [![MediTrack staff schedule](ScreenShots/Staff_Approving.png)](ScreenShots/Staff_Approving.png) |
+| Track personal requests and statuses | Review, confirm, or cancel clinic requests |
 
-### 2. Dashboard
-
-The patient dashboard for creating a new appointment request.
-
-![MediTrack patient dashboard](ScreenShots/Dashboard.png)
-
-### 3. My Appointments
-
-Patients can review their requests and monitor each appointment status.
-
-![MediTrack my appointments page](ScreenShots/My_Appointments.png)
-
-### 4. Staff Clinic Schedule
-
-Staff can review incoming requests and confirm or cancel appointments.
-
-![MediTrack staff approval screen](ScreenShots/Staff_Approving.png)
+> The images in `ScreenShots/` are visual references from the running application. Keep the folder available when previewing this README locally.
