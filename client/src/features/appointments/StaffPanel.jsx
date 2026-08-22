@@ -5,17 +5,18 @@ import { updateStatus } from "./appointmentsSlice";
 
 // TASK 7.5 - Staff-only screen. The UI mirrors the rule; the server enforces it.
 export default function StaffPanel() {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState([]); //contains the appointment
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //dispatch send actions to redux
 
-  const load = async () => {
+  const load = async () => { //gets appointments from the backend
     try {
       const { data } = await api.get("/staff/appointments");
-      setRows(data.appointments);
+      setRows(data.appointments); // stores here
       setError("");
     } catch (requestError) {
       setError(
+        //Try to find an error message from the backend. If there isn't one, use a default message.
         requestError.response?.data?.message ??
           requestError.response?.data?.msg ??
           "Unable to load clinic appointments"
@@ -26,6 +27,8 @@ export default function StaffPanel() {
   useEffect(() => {
     load();
   }, []);
+
+// called when staff clicks confirm or cancel
 
   const setStatus = async (id, status) => {
     await dispatch(updateStatus({ id, status }));
