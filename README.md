@@ -36,7 +36,7 @@ MediTrack connects two everyday workflows in one small, secure portal: patients 
 </p>
 
 <p align="center">
-  <img src="ScreenShots/Dashboard.png" alt="MediTrack patient dashboard" width="880">
+  <img src="https://raw.githubusercontent.com/simplysaadali/Medi_Track/main/ScreenShots/Dashboard.png" alt="MediTrack patient dashboard" width="880">
 </p>
 
 <p align="center"><em>The patient dashboard is the starting point for a request that becomes a staff decision.</em></p>
@@ -300,7 +300,7 @@ The screenshots follow the same path a user takes through the portal.
 ### 1 · Login
 
 <p align="center">
-  <img src="ScreenShots/Login_Page.png" alt="MediTrack login page" width="880">
+  <img src="https://raw.githubusercontent.com/simplysaadali/Medi_Track/main/ScreenShots/Login_Page.png" alt="MediTrack login page" width="880">
 </p>
 
 <p align="center"><em>Secure entry for patients and staff</em></p>
@@ -308,7 +308,7 @@ The screenshots follow the same path a user takes through the portal.
 ### 2 · Dashboard
 
 <p align="center">
-  <img src="ScreenShots/Dashboard.png" alt="MediTrack dashboard" width="880">
+  <img src="https://raw.githubusercontent.com/simplysaadali/Medi_Track/main/ScreenShots/Dashboard.png" alt="MediTrack dashboard" width="880">
 </p>
 
 <p align="center"><em>Create a new appointment request</em></p>
@@ -316,7 +316,7 @@ The screenshots follow the same path a user takes through the portal.
 ### 3 · My Appointments
 
 <p align="center">
-  <img src="ScreenShots/My_Appointments.png" alt="MediTrack my appointments" width="880">
+  <img src="https://raw.githubusercontent.com/simplysaadali/Medi_Track/main/ScreenShots/My_Appointments.png" alt="MediTrack my appointments" width="880">
 </p>
 
 <p align="center"><em>Track personal requests and statuses</em></p>
@@ -324,9 +324,9 @@ The screenshots follow the same path a user takes through the portal.
 ### 4 · Staff Clinic Schedule
 
 <p align="center">
-  <img src="ScreenShots/Staff_Approving.png" alt="MediTrack staff schedule" width="880">
+  <img src="https://raw.githubusercontent.com/simplysaadali/Medi_Track/main/ScreenShots/Staff_Approving.png" alt="MediTrack staff schedule" width="880">
 </p>
 
 <p align="center"><em>Review, confirm, or cancel clinic requests</em></p>
 
-> The images in `ScreenShots/` are visual references from the running application. Keep the folder available when previewing this README locally.
+> The screenshots are served directly from the `ScreenShots/` folder on the `main` branch via raw.githubusercontent.com, so they render wherever this README is viewed (GitHub, npm, editors, etc.), not just on the GitHub repo page.
